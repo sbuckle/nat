@@ -1,0 +1,36 @@
+{
+	"variables": {
+		"region": "eu-west-2",
+		"source_ami": "ami-00e8b55a2e841be44",
+		"ssh_username": "ec2-user"
+	},
+	"builders": [
+		{
+			"type": "amazon-ebs",
+			"region": "{{user `region`}}",
+			"instance_type": "t3.micro",
+			"source_ami": "{{user `source_ami`}}",
+			"ami_name": "nat-instance-{{timestamp}}",
+			"ssh_username": "{{user `ssh_username`}}",
+			"tags": {
+				"Name": "NAT instance"
+			}
+		}
+	],
+	"provisioners": [
+		{
+			"type": "file",
+			"source": "conf/",
+			"destination": "/tmp/"
+		},
+		{
+			"type": "shell",
+			"inline": [
+				"sudo mv /tmp/nat-config.sh /usr/local/bin/",
+				"sudo mv /tmp/nat.service /etc/systemd/system/",
+				"sudo mv /tmp/60-nat-settings.conf /etc/sysctl.d/",
+				"sudo systemctl enable nat"
+			]
+		}
+	]
+}

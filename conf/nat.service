@@ -1,0 +1,8 @@
+[Unit]
+Description=Configure NAT instance
+After=network-online.target
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/nat-config.sh
+[Install]
+WantedBy=multi-user.target
