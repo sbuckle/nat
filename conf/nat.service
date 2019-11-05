@@ -1,6 +1,7 @@
 [Unit]
 Description=Configure NAT instance
 After=network-online.target
+Wants=network-online.target
 [Service]
 Type=oneshot
 ExecStart=/usr/local/bin/nat-config.sh
