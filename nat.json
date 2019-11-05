@@ -10,7 +10,7 @@
 			"region": "{{user `region`}}",
 			"instance_type": "t3.micro",
 			"source_ami": "{{user `source_ami`}}",
-			"ami_name": "nat-instance-{{timestamp}}",
+			"ami_name": "nat-instance-{{isotime \"20060102\"}}",
 			"ssh_username": "{{user `ssh_username`}}",
 			"tags": {
 				"Name": "NAT instance"
