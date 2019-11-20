@@ -9,7 +9,12 @@ if [ $? -ne 0 ] ; then
 fi
 
 log "Determining the MAC address on eth0..."
-VPC_CIDR=$(curl --silent --fail --retry 3 http://169.254.169.254/latest/meta-data/network/interfaces/macs/$ETH0_MAC/vpc-ipv4-cidr-blocks)
+TOKEN=$(curl --silent -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 60")
+
+VPC_CIDR=$(curl --silent --fail --retry 3 \
+	http://169.254.169.254/latest/meta-data/network/interfaces/macs/$ETH0_MAC/vpc-ipv4-cidr-blocks \
+	-H "X-aws-ec2-metadata-token: $TOKEN"
+)
 if [ $? -ne 0 ] ; then
 	VPC_CIDR="0.0.0.0/0"
 else
